@@ -1,0 +1,11 @@
+c:\anaconda3\lib\site-packages\torchdiffeq-0.1.1-py3.8.egg
+C:\Anaconda3\Scripts\convert-caffe2-to-onnx-script.py
+C:\Anaconda3\Scripts\convert-caffe2-to-onnx.exe
+C:\Anaconda3\Scripts\convert-onnx-to-caffe2-script.py
+C:\Anaconda3\Scripts\convert-onnx-to-caffe2.exe
+C:\Anaconda3\Scripts\f2py-script.py
+C:\Anaconda3\Scripts\f2py.exe
+C:\Anaconda3\Scripts\futurize-script.py
+C:\Anaconda3\Scripts\futurize.exe
+C:\Anaconda3\Scripts\pasteurize-script.py
+C:\Anaconda3\Scripts\pasteurize.exe
