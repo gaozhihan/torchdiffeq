@@ -3,22 +3,22 @@ from torchdiffeq.covar.solvers import FixedGridODESolver_Covar
 from torchdiffeq._impl.rk_common import rk4_alt_step_func
 
 
-class Euler(FixedGridODESolver_Covar):
+class Euler_Covar(FixedGridODESolver_Covar):
     order = 1
 
     def __init__(self, eps=0., **kwargs):
-        super(Euler, self).__init__(**kwargs)
+        super(Euler_Covar, self).__init__(**kwargs)
         self.eps = torch.as_tensor(eps, dtype=self.dtype, device=self.device)
 
     def _step_func(self, func, t, dt, y):
         return dt * func(t + self.eps, y)
 
 
-class Midpoint(FixedGridODESolver_Covar):
+class Midpoint_Covar(FixedGridODESolver_Covar):
     order = 2
 
     def __init__(self, eps=0., **kwargs):
-        super(Midpoint, self).__init__(**kwargs)
+        super(Midpoint_Covar, self).__init__(**kwargs)
         self.eps = torch.as_tensor(eps, dtype=self.dtype, device=self.device)
 
     def _step_func(self, func, t, dt, y):
@@ -27,11 +27,11 @@ class Midpoint(FixedGridODESolver_Covar):
         return dt * func(t + half_dt, y_mid)
 
 
-class RK4(FixedGridODESolver_Covar):
+class RK4_Covar(FixedGridODESolver_Covar):
     order = 4
 
     def __init__(self, eps=0., **kwargs):
-        super(RK4, self).__init__(**kwargs)
+        super(RK4_Covar, self).__init__(**kwargs)
         self.eps = torch.as_tensor(eps, dtype=self.dtype, device=self.device)
 
     def _step_func(self, func, t, dt, y):

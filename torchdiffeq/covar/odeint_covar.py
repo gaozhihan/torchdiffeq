@@ -1,13 +1,15 @@
 from torchdiffeq._impl.misc import _flat_to_shape
-from torchdiffeq.covar.fixed_grid import Euler, Midpoint, RK4
-from torchdiffeq.covar.dopri5 import Dopri5Solver
+from torchdiffeq.covar.fixed_grid import Euler_Covar, Midpoint_Covar, RK4_Covar
+from torchdiffeq.covar.bosh3 import Bosh3Solver_Covar
+from torchdiffeq.covar.dopri5 import Dopri5Solver_Covar
 from torchdiffeq.covar.misc import _check_inputs_covar
 
 SOLVERS = {
-    'euler': Euler,
-    'midpoint': Midpoint,
-    'rk4': RK4,
-    'dopri5': Dopri5Solver
+    'euler': Euler_Covar,
+    'midpoint': Midpoint_Covar,
+    'rk4': RK4_Covar,
+    'bosh3': Bosh3Solver_Covar,
+    'dopri5': Dopri5Solver_Covar
 }
 
 def odeint_covar(func, y0, t, covar_func, ret_covar=False, rtol=1e-7, atol=1e-9, method=None, options=None):
@@ -120,7 +122,8 @@ if __name__ == "__main__":
 
     # method = "euler"
     # method = "midpoint"
-    method="rk4"
+    # method = "rk4"
+    method = "bosh3"
     # method = "dopri5"
     solution, sol_covar = odeint_covar(func=func, y0=y0, t=t, ret_covar=True,
                                        covar_func=covar_func, method=method)
