@@ -28,7 +28,7 @@ class RK4Error(FixedGridODESolver):
         y1, f1, y1_error, k = _runge_kutta_step(func, y, f, t, dt, self.tableau)
         error_ratio = _compute_error_ratio(y1_error, self.rtol, self.atol, y, y1, self.norm)
         # print("%.4f" % error_ratio.item())
-        self.total_error_ratio.append(error_ratio)
+        self.total_error_ratio.append(error_ratio.item())
         accept_step = error_ratio <= 1
         return y1
         # return rk4_alt_step_func(func, t + self.eps, dt - 2 * self.eps, y)
