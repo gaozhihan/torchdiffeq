@@ -21,16 +21,14 @@ class RK4Error(FixedGridODESolver):
                                        c_sol=self.tableau.c_sol.to(device=device, dtype=y0.dtype),
                                        c_error=self.tableau.c_error.to(device=device, dtype=y0.dtype))
         self.norm = _rms_norm
-        self.total_error_ratio = 0
-        self.step_counter = 0
+        self.total_error_ratio = []
 
     def _step_func(self, func, t, dt, y):
         f = func(t, y)
         y1, f1, y1_error, k = _runge_kutta_step(func, y, f, t, dt, self.tableau)
         error_ratio = _compute_error_ratio(y1_error, self.rtol, self.atol, y, y1, self.norm)
         # print("%.4f" % error_ratio.item())
-        self.total_error_ratio += error_ratio
-        self.step_counter += 1
+        self.total_error_ratio.append(error_ratio)
         accept_step = error_ratio <= 1
         return y1
         # return rk4_alt_step_func(func, t + self.eps, dt - 2 * self.eps, y)
@@ -39,7 +37,7 @@ SOLVERS = {
     "rk4": RK4Error
 }
 
-def odeint_rk4error(func, y0, t, rtol=1e-7, atol=1e-9, method=None, options=None):
+def odeint_rk4error(func, y0, t, rtol=1e-7, atol=1e-9, method=None, options=None, return_error_ratio=False):
     shapes, func, y0, t, rtol, atol, method, options = _check_inputs(func, y0, t, rtol, atol, method, options, SOLVERS)
 
     solver = RK4Error(func=func, y0=y0, rtol=rtol, atol=atol, **options)
@@ -47,5 +45,7 @@ def odeint_rk4error(func, y0, t, rtol=1e-7, atol=1e-9, method=None, options=None
 
     if shapes is not None:
         solution = _flat_to_shape(solution, (len(t),), shapes)
-    print("average error ratio = %.4f" % (solver.total_error_ratio / solver.step_counter))
-    return solution
+    if return_error_ratio:
+        return solution, solver.total_error_ratio
+    else:
+        return solution
